@@ -89,6 +89,18 @@ a:hover{text-decoration:underline}
   display:flex;align-items:center;justify-content:center;font-size:18px;color:var(--nerv);cursor:pointer;
   flex:none;margin-right:4px;
 }
+/* 移动端顶栏（含小汉堡按钮） */
+.mtop{
+  height:48px;flex:none;display:none;align-items:center;gap:10px;padding:0 14px;
+  border-bottom:1px solid var(--line);background:rgba(255,255,255,.85);backdrop-filter:blur(12px);
+}
+.mtop .mb-btn{
+  width:32px;height:32px;border-radius:9px;border:1px solid var(--line-2);background:var(--panel);
+  display:flex;align-items:center;justify-content:center;font-size:15px;color:var(--nerv);cursor:pointer;flex:none;
+}
+.mtop .mt-title{flex:1;font-size:15px;font-weight:700;color:var(--tx);display:flex;align-items:center;gap:6px}
+.mtop .mt-title .emo{font-size:18px}
+.mtop .mt-clock{font-family:var(--mono);font-size:11px;color:var(--nerv);font-weight:600}
 .nav-head{
   padding:24px 18px 18px;display:flex;flex-direction:column;align-items:center;gap:8px;
   border-bottom:1px solid var(--line);text-align:center;
@@ -458,8 +470,9 @@ a:hover{text-decoration:underline}
   .nav-foot{padding:10px 8px;flex-direction:column;gap:5px}
   .nav-foot .btn{font-size:10px;padding:7px 7px;width:100%;justify-content:center}
   .top{display:none}
-  .mtop{display:none}
-  .mtop .mb-btn{display:none}
+  .mtop{display:flex}
+  .mtop .mb-btn{display:flex}
+  .nav-fab{display:none}
   .body{padding:14px 14px calc(14px + env(safe-area-inset-bottom))}
   .grid{gap:13px}
   .g2,.g3,.g4,.main,.g-main-r{grid-template-columns:1fr}
@@ -811,6 +824,12 @@ a:hover{text-decoration:underline}
 
   <!-- ============ 右侧主内容区 ============ -->
   <main class="main">
+    <!-- 移动端顶栏 -->
+    <header class="mtop">
+      <button class="mb-btn" onclick="App.toggleNav()" aria-label="切换侧栏">☰</button>
+      <div class="mt-title" id="mtTitle"><span class="emo">🌎</span><span>地球Online 工作台</span></div>
+      <div class="mt-clock" id="mtClock">--:--</div>
+    </header>
     <!-- 桌面端顶栏 -->
     <header class="top">
       <button class="top-menu-btn" onclick="App.toggleNav()" aria-label="切换侧栏">☰</button>
@@ -1621,6 +1640,7 @@ const App={
       $('#topTitle').innerHTML='<span class="emo">'+m.emoji+'</span><span>'+m.name+'</span>';
       $('#topSub').textContent=m.en+' // '+m.sub;
       $('#mTitle').innerHTML='<span class="emo">'+m.emoji+'</span><span>'+m.name+'</span>';
+      $('#mtTitle').innerHTML='<span class="emo">'+m.emoji+'</span><span>'+m.name+'</span>';
     }
     $('#scrollBody').scrollTop=0;
     DB.set('lastView',id);
@@ -1685,6 +1705,8 @@ const App={
     $('#clkTime').textContent=pad(d.getHours())+':'+pad(d.getMinutes())+':'+pad(d.getSeconds());
     $('#clkDate').textContent=d.getFullYear()+'.'+pad(d.getMonth()+1)+'.'+pad(d.getDate())+' 周'+WK[d.getDay()];
     $('#mClock').textContent=pad(d.getHours())+':'+pad(d.getMinutes());
+    const mtClock=$('#mtClock');
+    if(mtClock)mtClock.textContent=pad(d.getHours())+':'+pad(d.getMinutes());
   },
 
   /* ---------- 首页渲染 ---------- */
