@@ -472,7 +472,9 @@ a:hover{text-decoration:underline}
   .top{display:none}
   .mtop{display:flex}
   .mtop .mb-btn{display:flex}
+  .top-menu-btn{display:none}
   .nav-fab{display:none}
+  .app.nav-collapsed .nav-fab{display:flex}
   .body{padding:14px 14px calc(14px + env(safe-area-inset-bottom))}
   .grid{gap:13px}
   .g2,.g3,.g4,.main,.g-main-r{grid-template-columns:1fr}
@@ -485,9 +487,6 @@ a:hover{text-decoration:underline}
   .scrim{display:none}
   .app.nav-collapsed{grid-template-columns:0 1fr}
   .app.nav-collapsed .nav-panel{transform:translateX(-100%);width:0;padding-left:0;padding-right:0;opacity:0;pointer-events:none}
-  .nav-fab{display:flex}
-  .app:not(.nav-collapsed) .nav-fab{left:calc(var(--nav-w-m) + 14px)}
-  .top-menu-btn{display:none}
   .tl-r{grid-template-columns:52px 1fr 78px 28px;min-height:46px}
   .tl-t{font-size:10px}
   .cards{grid-template-columns:repeat(auto-fill,minmax(48%,1fr));gap:11px}
@@ -837,13 +836,6 @@ a:hover{text-decoration:underline}
       <div class="sub" id="topSub"></div>
       <div class="sp"></div>
       <div class="clock"><b id="clkDate">--</b><span id="clkTime">--:--:--</span></div>
-    </header>
-
-    <!-- 移动端顶栏 -->
-    <header class="mtop" id="mtop">
-      <div class="mb-btn" onclick="App.drawer(true)">☰</div>
-      <h2 id="mTitle"></h2>
-      <span class="mclock" id="mClock">--:--</span>
     </header>
 
     <!-- 主内容区 -->
@@ -1639,7 +1631,6 @@ const App={
     if(m){
       $('#topTitle').innerHTML='<span class="emo">'+m.emoji+'</span><span>'+m.name+'</span>';
       $('#topSub').textContent=m.en+' // '+m.sub;
-      $('#mTitle').innerHTML='<span class="emo">'+m.emoji+'</span><span>'+m.name+'</span>';
       $('#mtTitle').innerHTML='<span class="emo">'+m.emoji+'</span><span>'+m.name+'</span>';
     }
     $('#scrollBody').scrollTop=0;
@@ -1704,7 +1695,6 @@ const App={
     const d=new Date();
     $('#clkTime').textContent=pad(d.getHours())+':'+pad(d.getMinutes())+':'+pad(d.getSeconds());
     $('#clkDate').textContent=d.getFullYear()+'.'+pad(d.getMonth()+1)+'.'+pad(d.getDate())+' 周'+WK[d.getDay()];
-    $('#mClock').textContent=pad(d.getHours())+':'+pad(d.getMinutes());
     const mtClock=$('#mtClock');
     if(mtClock)mtClock.textContent=pad(d.getHours())+':'+pad(d.getMinutes());
   },
